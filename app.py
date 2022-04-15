@@ -17,6 +17,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route("/uploads/<path:path>")
 @app.route("/images/<path:path>")
 def static_dir(path):
+    path=path.lower()
     return send_from_directory("uploads", path)
 
 db= SQLAlchemy(app)
@@ -35,11 +36,14 @@ from apscheduler.schedulers.background import BackgroundScheduler
 def print_date_time():
     print(time.strftime("%A, %d. %B %Y %I:%M:%S %p"))
 
-
+'''
 scheduler = BackgroundScheduler()
-scheduler.add_job(func=print_date_time, trigger="interval", seconds=60)
+scheduler.add_job(func=print_date_time, trigger="interval", minutes=1)
 scheduler.start()
+'''
+#scheduler.cancel()
 
-
+'''
 if __name__ == '__main__':
     app.run(port=5000,debug=True)
+'''
