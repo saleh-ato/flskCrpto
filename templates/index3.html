@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+{% endblock %}
+{% block nav %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light" dir="rtl">
+    <a class="navbar-brand" href="#">Flask Crypto</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{url_for('Homepage')}}">خانه - لیست رمزارزها</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+{% endblock %}
+{% block content %}
+<h1 class="h2 text-end my-5">قیمت امروز رمزارزها</h1>
+<div class="container">
+    <div class="row">
+        <table class="table table-hover" dir="rtl" style="text-align: center;">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">کوین</th>
+                    <th scope="col">نام اختصاری</th>
+                    <th scope="col">قیمت</th>
+                    <th class="col-md-2" scope="col">تغییرات 24 ساعته</th>
+                    <th class="col-md-2" scope="col">حجم معاملات</th>
+                    <th scope="col">حجم بازار</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for object in data %}
+                <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td><img src="/uploads/coins/{{object.ShortName}}.png" height="24px" alt=""> <a href="/coin/{{object.ShortName}}">{{object.FullName}}</a></td>
+                    <td>{{object.ShortName}}</td>
+                    <td>{{object.price}} $</td>
+                    <td dir="ltr">{{object.percent}}%</td>
+                    <td>{{object.volume}} $</td>
+                    <td>{{object.marketcap}} $</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{# <div class="container">
+    <div class="row">
+        <div class="col-4">
+            <div class="card" >
+                <img src="" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">2</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, officiis?
+                    </p>
+                    <a href="" class="btn btn-primary">button</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card"><img src="" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">2</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, officiis?
+                    </p>
+                    <a href="" class="btn btn-primary">button</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card"><img src="" alt="" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">2</h5>
+                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate, officiis?
+                    </p>
+                    <a href="" class="btn btn-primary">button</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> #}
+{% endblock %}

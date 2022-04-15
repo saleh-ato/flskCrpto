@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 404 Error</title>
+</head>
+<body>
+    <style>
+        body {
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: center;
+            justify-content: center;
+        }
+        p {
+            padding: 20px;
+            background: #ff00ff;
+            color: black;
+            border-radius: .6rem;
+            font-family: Sahel;
+        }
+    </style>
+		<div class="center py-5">
+            <div class="f_row"></div>
+            {% for log in logs %}
+            <p dir="rtl">{{log}}</p>
+            {% endfor %}
+        </div>
+</body>
+</html>

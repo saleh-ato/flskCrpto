@@ -1,0 +1,72 @@
+tfoot,
+  thead {
+    border: none !important;
+  }
+
+  tr.footable-header th {
+    border: none !important;
+  }
+
+  tbody,
+  tbody td,
+  tbody th,
+  tfoot td,
+  thead th {
+    border: none !important;
+  }
+
+  div.divider,
+  span.label.label-default {
+    display: none;
+  }
+  table.footable form.form-inline {
+    display: flex !important;
+    justify-content: flex-end;
+  }
+  div.table-container {
+    overflow-x: auto;
+  }
+
+  table.footable form .dropdown-toggle::after {
+    content: none !important;
+  }
+
+  table.footable,
+  table tr.footable-header th {
+    direction: rtl;
+    text-align: right !important;
+  }
+
+  .row.foo a,
+  .row.foo td,
+  .row.foo th {
+    color: #E6E9E7;
+  }
+
+  .row.foo {
+    background-color: #54A0DD;
+    background-image: linear-gradient(315deg, #54A0DD 0%, #0B5FCD 74%);
+    color: #fff !important;
+  }
+
+  .footable input.form-control::placeholder {
+    color: #eaeaea;
+  }
+
+  .footable .input-group-btn button.btn,
+  .footable .input-group input {
+    border-radius: 1rem !important;
+  }
+
+  .footable button.btn {
+    box-shadow: none;
+  }
+
+  ul.dropdown-menu.dropdown-menu-right {
+    direction: ltr;
+  }
+
+  .footable ul.dropdown-menu.dropdown-menu-right {
+    left: 0;
+    right: auto;
+  }

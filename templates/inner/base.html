@@ -1,0 +1,483 @@
+<!--
+=========================================================
+* Material Dashboard 2 - v3.0.1
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/material-dashboard
+* Copyright 2022 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://www.creative-tim.com/license)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="/uploads/favicon/apple-icon-57x57.png">
+  <link rel="icon" type="image/png" href="/uploads/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/uploads/favicon/android-icon-144x144.png">
+  <link rel="manifest" href="/uploads/favicon/manifest.json">
+  <meta name="msapplication-TileColor" content="#1D69AB">
+  <meta name="msapplication-TileImage" content="/uploads/favicon/ms-icon-70x70.png">
+  <meta name="theme-color" content="#1D69AB">
+  <title>Flask Crypto - {{Coin.FullName}} اطلاعات</title>
+  <link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <link href="{{url_for('static' , filename='css/nucleo-icons.css')}}" rel="stylesheet" />
+  <link href="{{url_for('static' , filename='css/nucleo-svg.css')}}" rel="stylesheet" />
+  
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <!-- CSS Files -->
+  <link id="pagestyle" href="{{url_for('static' , filename='css/material-dashboard.css')}}" rel="stylesheet" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="{{url_for('static',filename='chartjs/chartjs-chart-financial.js')}}" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/luxon@1.26.0"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.1/dist/chart.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0"></script>
+  <!-- <script src="./chartjs-chart-financial.js" type="text/javascript"></script> -->
+  <link rel="stylesheet" href="{{url_for('static',filename='css/rtl.css')}}">
+</head>
+
+<body class="g-sidenav-show bg-gray-200">
+  <aside
+    class="text-center sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark"
+    id="sidenav-main">
+    <div class="sidenav-header">
+      <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
+        aria-hidden="true" id="iconSidenav"></i>
+      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
+        target="_blank">
+        <img src="/uploads/logo/logo.png" class="navbar-brand-img h-100" alt="Flask Crypto">
+      </a>
+    </div>
+    <hr class="horizontal light mt-0 mb-2">
+    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+      <ul class="navbar-nav rtl">
+        <li class="nav-item">
+          <a class="nav-link text-white " href="{{url_for('Homepage')}}">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons-round">home</span>
+            </div>
+            <span class="nav-link-text ms-1">&nbsp;&nbsp;خانه - لیست رمزارزها</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="{{url_for('expectationPage')}}">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons-round">query_stats</span>
+            </div>
+            <span class="nav-link-text ms-1">&nbsp;&nbsp;پیش بینی قیمت</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="{{url_for('most24hChange')}}">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons-round"> percent </span>
+            </div>
+            <span class="nav-link-text ms-1">&nbsp;&nbsp;بیشترین تغییرات 24 ساعت گذشته</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="{{url_for('BlogIndex')}}">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <span class="material-icons-round"> functions </span>
+            </div>
+            <span class="nav-link-text ms-1">آشنایی با اندیکاتورها</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+  <div class="main-content position-relative max-height-vh-100 h-100">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
+      navbar-scroll="true">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="/">Coins /&nbsp;</a></li>
+            <a href="/coin/{{Coin.ShortName}}">
+              <li class="breadcrumb-item text-sm text-dark active" aria-current="page">{{Coin.ShortName}}</li>
+            </a>
+          </ol>
+          <h6 class="font-weight-bolder mb-0">{{Coin.FullName}}</h6>
+        </nav>
+      </div>
+    </nav>  
+    <div class="container-fluid px-2 px-md-4">
+      <div class="card card-body mx-3 mx-md-4">
+        <div class="row gx-4 mb-2">
+          <div class="col-auto">
+            <div class="avatar avatar-xl position-relative">
+              <img src="/uploads/coins/{{Coin.ShortName}}.png" alt="profile_image"
+                class="w-100 rounded-circle shadow-sm">
+            </div>
+          </div>
+          <div class="col-auto my-auto">
+            <div class="h-100">
+              <h5 class="mb-1">
+                {{info['Fullname']|capitalize}}
+              </h5>
+              <p class="mb-0 font-weight-normal text-sm">
+                {{info['Shortname']|upper}}
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+            <div class="nav-wrapper position-relative end-0">
+              <ul class="nav nav-pills nav-fill p-1" role="tablist">
+                <li class="nav-item col-4">
+                  <a class="nav-link mb-0 px-0 py-1 active " data-bs-toggle="tab" href="javascript:;" role="tab"
+                    aria-selected="true">
+                    <i class="material-icons text-lg position-relative">info</i>
+                    <span class="ms-1">مشخصات</span>
+                    <span class="hidden">Information</span>
+                  </a>
+                </li>
+                <li class="nav-item col-4" id="Messages">
+                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
+                    aria-selected="false">
+                    <i class="material-icons text-lg position-relative">calculate</i>
+                    <span class="ms-1">ماشین حساب</span>
+                    <span class="hidden">Calculator</span>
+                  </a>
+                </li>
+                <li class="nav-item col-4" id="Tr">
+                  <a class="nav-link mb-0 px-0 py-1 " data-bs-toggle="tab" href="javascript:;" role="tab"
+                    aria-selected="false">
+                    <i class="material-icons text-lg position-relative">format_list_bulleted</i>
+                    <span class="ms-1">کوین‌های ترند</span>
+                    <span class="hidden">Other-Coins</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+            <canvas id="myChart"></canvas>
+          </div>
+          <div class="col-12 col-md-4 Information rtl">
+            <div class="card card-plain h-100">
+              <div class="card-header pb-0 p-3">
+                <h6 class="mb-0">مشخصات</h6>
+              </div>
+              <div class="card-body p-3">
+                <ul class="list-group">
+                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 pt-0">
+                    <div class="d-flex align-items-start flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm">قیمت {{Coin.FullName}}</h6>
+                      <p class="mb-0 text-xs">قیمت به دلار</p>
+                    </div>
+                    <a class="btn btn-link pe-3 px-0 mb-0 me-auto w-25 w-md-auto"
+                      href="javascript:;">{{(Coin.price|string)[:8]}}</a>
+                  </li>
+                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
+                    <div class="d-flex align-items-start flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm">درصد تغییر قیمت</h6>
+                      <p class="mb-0 text-xs">نسبت به دیروز</p>
+                    </div>
+                    <a class="ltr btn btn-link pe-3 px-0 mb-0 me-auto w-25 w-md-auto"
+                      href="javascript:;">{{(Coin.percent|round(2))}}</a>
+                  </li>
+                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
+                    <div class="d-flex align-items-start flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm">حجم معاملات<span class="bg-primary badge m-2">1 روزه</span></h6>
+                    </div>
+                    <a class="btn btn-link pe-3 px-0 mb-0 me-auto w-25 w-md-auto"
+                      href="javascript:;">{{"${:,.2f}".format((Coin.volume|float))}}</a>
+                  </li>
+                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
+                    <div class="d-flex align-items-start flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm">حجم بازار</h6>
+                      <p class="mb-0 text-xs">قیمت هر کوین * تعداد کوین‌های موجود</p>
+                    </div>
+                    <a class="btn btn-link pe-3 px-0 mb-0 me-auto w-25 w-md-auto"
+                      href="javascript:;">{{"${:,.0f}".format((Coin.marketcap|float))}}</a>
+                  </li>
+                  <li class="list-group-item border-0 d-flex align-items-center px-0">
+                    <div class="d-flex align-items-start flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm">نسبت معاملات به بازار</h6>
+                      <p class="mb-0 text-xs">حجم بازار/ حجم معاملات</p>
+                    </div>
+                    <a class="btn btn-link pe-3 px-0 mb-0 me-auto w-25 w-md-auto"
+                      href="javascript:;">{{((Coin.volume/(Coin.marketcap|int))|string)[:6]}}</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 Calculator hidden">
+            <div class="card card-plain h-100">
+              <div class="card-header pb-0 p-3">
+                <h6 class="rtl">ماشین حساب</h6>
+              </div>
+              <div class="card-body p-3">
+                <ul class="list-group">
+                  <li class="list-group-item border-0 d-flex align-items-center px-0">
+                    <div class="d-flex align-items-start flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm"><input type="text" class="calc" name="" id="Amount"
+                          placeholder="{{Coin.ShortName}}"></h6>
+                    </div>
+                    <a id="BasePrice" class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto">{{(Coin.price|round(2))}}</a>
+                  </li>
+                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
+                    <div class="d-flex align-items-start flex-column justify-content-center">
+                      <h6 class="mb-0 text-sm"><input type="text" class="calc" name="" id="DPrice" placeholder="USD"></h6>
+                    </div>
+                    <a class="btn btn-link pe-3 ps-0 mb-0 ms-auto w-25 w-md-auto" href="javascript:;">قیمت دلار(تومان)</a>
+                  </li>
+                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
+                    <div class="d-flex align-items-start flex-column justify-content-center">
+                      <button id="reset" class="btn btn-outline-primary">پاک کردن</button>
+                    </div>
+                    <button class="btn btn-primary ms-auto w-25 w-md-auto" id="calculate">تبدیل</button>
+                  </li>
+                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2">
+                    <span id="formula" class="text-end"></span>
+                  </li>
+                  <li class="list-group-item border-0 d-flex align-items-center px-0 mb-2 rtl">
+                    <span id="result" class="text-start"></span>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 Other-Coins hidden">
+            <div class="card card-plain h-100">
+              <div class="card-header pb-0 p-3">
+                <h6 class="mb-0 rtl">کوین‌های ترند</h6>
+              </div>
+              <div class="card-body p-3"> 
+                <ul id="trendcoins" class="list-group">
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row rtl">
+          <div class="col-6 col-xl-6">
+            <div class="card card-plain h-100">
+              <div class="card-header pb-0 p-3">
+                <div class="row">
+                  <div class="col-md-12 d-flex align-items-center">
+                    <h6 class="mb-0">توضیحات</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body p-3">
+                <p class="text-sm">{{coin_data.Description}}</p>
+                <hr class="horizontal gray-light my-4">
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card-header pb-0 p-3">
+              <div class="row">
+                <div class="col-md-12 d-flex align-items-center">
+                  <h6 class="mb-0">اطلاعات متفرقه</h6>
+                </div>
+              </div>
+            </div>
+            <ul class="list-group p-3">
+              <li class="list-group-item border-0 ps-0 pt-0 text-sm"><strong class="text-dark">وبسایت:</strong></li>
+              <li class="list-group-item border-0 ps-0 pt-0 text-sm ltr text-start"><a
+                  href="{{coin_data.Website}}">{{coin_data.Website}}</a></li>
+              <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">لینک گیتهاب:</strong></li>
+              <li class="list-group-item border-0 ps-0 text-sm ltr text-start"><a
+                  href="{{coin_data.GitHubLink}}">{{coin_data.GitHubLink}}</a></li>
+              <li class="list-group-item border-0 ps-0 text-sm"><strong class="text-dark">حداکثر عرضه:</strong></li>
+              <li class="list-group-item border-0 ps-0 text-sm ltr text-start"><a>{{coin_data.MaxSupply}}</a></li>
+              <li class="list-group-item border-0 ps-0 text-sm">
+                <p>منظور از حداکثر عرضه سقف تعداد کوین‌های یک رمزارز است.</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row rtl">
+          <div class="col-12 my-3 ps-3">
+            <h6>پیش بینی قیمت</h6>
+          </div>
+        </div>
+        <div class="row rtl cards_center">
+          <div class="col-md-3 mb-3">
+            <a href="{{url_for('expectation_page',coin_name='BTC')}}" style="height: 10rem;width: 10rem;"
+              class="btn btn-warning btn-lg mb-0">
+              <img src="/uploads/coins/BTC.png" alt="BTC-logo" class="rounded-circle" style="width: 5rem;">
+              <p style="color:white;">Bitcoin - بیتکوین</p>
+            </a>
+          </div>
+          <div class="col-md-3 mb-3">
+            <a href="{{url_for('expectation_page',coin_name='ETH')}}" style="height: 10rem;width: 10rem;"
+              class="btn btn-secondary btn-lg mb-0">
+              <img src="/uploads/coins/ETH.png" alt="BTC-logo" class="rounded-circle" style="width: 5rem;">
+              <p style="color:white;">Ethereum - اتریوم</p>
+            </a>
+          </div>
+          <div class="col-md-3 mb-3">
+            <a href="{{url_for('expectation_page',coin_name='BNB')}}" style="height: 10rem;width: 10rem;"
+              class="btn btn-success btn-lg mb-0">
+              <img src="/uploads/coins/BNB.png" alt="BTC-logo" class="rounded-circle" style="width: 5rem;">
+              <p style="color:white;">BNB - بایننس کوین</p>
+            </a>
+          </div>
+          <div class="col-md-3 mb-3">
+            <a href="{{url_for('expectation_page',coin_name='SOL')}}" style="height: 10rem;width: 10rem;"
+              class="btn btn-info btn-lg mb-0">
+              <img src="/uploads/coins/SOL.png" alt="BTC-logo" class="rounded-circle" style="width: 5rem;">
+              <p>Solana - سولانا</p>
+            </a>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+    <footer class="footer py-4  ">
+      <div class="container-fluid">
+        <div class="row align-items-center justify-content-lg-between">
+          <div class="col-lg-6 mb-lg-0 mb-4">
+            <div class="copyright text-center text-sm text-muted text-lg-start opacity-1">
+              ©
+              <script>
+                document.write(new Date().getFullYear())
+              </script>,
+              made by
+              <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
+              for a better web.
+            </div>
+          </div>
+          <div class="col-lg-6 rtl">
+            <ul class="nav nav-footer justify-content-center justify-content-lg-start">
+              <li class="nav-item">
+                <a href="/" class="nav-link text-muted" target="_blank">خانه</a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url_for('expectationPage')}}" class="nav-link text-muted" target="_blank">پیش بینی قیمت</a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url_for('BlogIndex')}}" class="nav-link text-muted" target="_blank">اندیکاتورها</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  
+  <!--   Core JS Files   -->
+  <script src="{{url_for('static' , filename='js/popper.min.js')}}"></script>
+  <script src="{{url_for('static' , filename='js/bootstrap.min.js')}}"></script>
+  <script src="{{url_for('static' , filename='js/perfect-scrollbar.min.js')}}"></script>
+  <script src="{{url_for('static' , filename='js/smooth-scrollbar.min.js')}}"></script>
+  <script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="{{url_for('static', filename='js/material-dashboard.min.js')}}"></script>
+  <script>
+    dataparser({{ Chart_Data }})
+    function dataparser(data) {
+      console.log(data)
+      //chartjsCreator2(data)
+    }
+
+    data2 = [
+      {% for data in Chart_Data %}
+    {
+      x: {{ data[0] }},
+      o: {{ data[1] }},
+      h: {{ data[2] }},
+      l: {{ data[3] }},
+      c: {{ data[4] }}
+    },
+    {% endfor %}
+  ]
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'candlestick',
+      data: {
+        //labels: TimeBars,
+        datasets: [{
+          responsive: true,
+          label: '',
+          data: data2,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: false,
+          }
+        }
+      }
+    });
+  </script>
+  <script src="{{url_for('static',filename='test/file.js')}}" type="text/javascript"></script>
+  <style>
+    .hidden {
+      display: none;
+    }
+
+    a.nav-link.active span {
+      color: #4199e6;
+    }
+
+    input[type="text"].calc {
+      border: 1px solid rgb(54, 124, 231, 0.3);
+      outline: none;
+      border-radius: 1rem;
+      padding: 0.3rem;
+    }
+
+    input[type="text"].calc:focus {
+      /*border: 1px solid;*/
+      box-shadow: rgb(54, 124, 231, 0.3) 0px 1px 2px 0px, rgb(54, 124, 231, 0.15) 0px 2px 6px 2px;
+      box-shadow: rgb(54, 124, 231, 0.3) 0px 0px 5px 0px;
+      border: none;
+      outline: none;
+      border-radius: 1rem;
+      padding: 0.3rem;
+      transition: 0.1s;
+    }
+
+    input[type="text"]::placeholder {
+      padding: 2%;
+    }
+  </style>
+  <script>
+    // https://api.coingecko.com/api/v3/search/trending  
+    var jqxhr = $.get("https://api.coingecko.com/api/v3/search/trending", function (data) {
+      console.log(data)
+    })
+      .done(function (data) {
+        console.log(data);
+        // chartjsCreator2(data)
+      })
+      .fail(function () {
+      })
+      .always(function () {
+      });
+  </script>
+</body>
+</html>

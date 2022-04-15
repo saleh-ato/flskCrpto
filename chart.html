@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="./chartjs-chart-financial.js" type="text/javascript"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/luxon@1.26.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.1/dist/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0"></script>
+<script src="./chartjs-chart-financial.js" type="text/javascript"></script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chart BTC</title>
+  </head>
+  <body>
+    <canvas id="myChart"></canvas>
+    <canvas id="myChart0"></canvas>
+    <canvas id="myChart1"></canvas>
+  <script>
+	x1=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+	O=[18.23, 19.36, 18.18, 19.31]
+	H=[19.50, 19.89, 19.00, 19.29]
+	L=[18, 18, 18, 18]
+	C=[18.54, 18.76, 18.27, 18.76]
+	data1={
+		x:x1,
+		o: O,
+		h: H,
+		l: L,
+		c: C
+	}
+    // setup
+	const startingDate=luxon.DateTime.fromRFC2822('13 Jan 2022 00:00 GMT')
+	const Date2=startingDate.plus({hours: 1})
+	/*DateTime.local().plus(123) //~> in 123 milliseconds
+	DateTime.local().plus({ minutes: 15 }) //~> in 15 minutes
+	DateTime.local().plus({ days: 1 }) //~> this time tomorrow
+	DateTime.local().plus({ days: -1 }) //~> this time yesterday
+	DateTime.local().plus({ hours: 3, minutes: 13 }) //~> in 3 hr, 13 min
+	DateTime.local().plus(Duration.fromObject({ hours: 3, minutes: 13 })) //~> in 3 hr, 13 min
+
+	yyyy-MM-ddTHH:mm:ss.fffffff
+	substr(0,9) + substr(11, 16) + 'GMT'
+	*/
+  var jqxhr = $.get("http://localhost:5000/chart-test", function(data ) {
+    console.log(data)
+    })
+    .done(function(data) {
+    chartjsCreator2(data)
+    })
+    .fail(function() {
+    })
+    .always(function() {
+    });
+  function chartjsCreator2(JSObject){
+    var ChartData=[]
+    var OtherData=[]
+    var TimeBars=[]
+    console.log(data)
+    console.log("_____________")
+    console.log(luxon.DateTime.fromISO(JSObject[0].time_period_start.valueOf()))
+
+    for(var i=0;i<JSObject.length;i++){
+      //temp = JSObject[i].price_close
+      //delete JSObject[i].price_close
+      ChartData.push(
+      {x:luxon.DateTime.fromISO(JSObject[i].time_period_start).plus({ hours: -3 , minutes: -30 }).valueOf(),
+       o:JSObject[i].price_open,
+       h:JSObject[i].price_high,
+       l:JSObject[i].price_low,
+       c:JSObject[i].price_close
+      })
+      OtherData.push(
+      {
+        time:JSObject[i].time_period_start.substring(11,19),
+        trades_count:JSObject[i].trades_count,
+        vol:JSObject[i].volume_traded
+      })
+      TimeBars.push(JSObject[i].time_period_start.substring(11,19))
+      /*{"price_close":42361.8,"price_high":42418.0,"price_low":42129.97,"price_open":42201.63
+      ,"time_period_start":"2022-01-18T00:00:00.0000000Z","trades_count":35177,"volume_traded":1131.74087}*/
+    }
+    console.log("ChartData :",ChartData)
+    console.log("___________")
+    console.log("OtherData :",OtherData)
+    console.log("")
+    console.log("88: ", OtherData.time)
+    console.log(TimeBars);
+    const ctx = document.getElementById('myChart0').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'candlestick',
+        data: {
+            //labels: TimeBars,
+            datasets: [{
+    			responsive: true,
+                label: 'Close',
+                data: ChartData,/*data1,*///[data1[0],data[1]],//[12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            }
+        }
+    });
+  }
+  //
+	data2=[{
+		x: startingDate.valueOf(),
+		o:O[0],
+		h:12,
+		l:0,
+		c:2
+		},{
+		x: Date2.valueOf(),
+		o:9,
+		h:13,
+		l:8,
+		c:12
+		}
+		]
+    const data = {
+      labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      datasets: [{
+        //label: 'Weekly Sales',
+        data: data2
+      }]
+    };
+//{x: 1491004800000, o: 28.68, h: 29.89, l: 26.19, c: 29.12}
+    // config
+    const config = {
+      type: 'candlestick',
+      data,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    };
+
+    // render init block
+  const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+    );
+	a1="2018-08-25T09:00:40.000-04:00"
+	const DateTime = luxon.DateTime;
+	dt=DateTime.now()
+	dt1=dt.toISO()
+	console.log(dt,"        |")
+	console.log(dt1.valueOf())
+	dt2=luxon.DateTime.fromISO(dt1)
+	console.log("___________")
+	console.log(dt2)
+	</script>
+	</body>
+	</html>

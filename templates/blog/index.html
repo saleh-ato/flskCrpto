@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block head %}
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+<!-- <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script> -->
+{#<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='blog/index/plugin.css')}}">#}
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='blog/index/style.css')}}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,300,500,600,700">
+{% endblock head %}
+{% block content %}
+<h1 class="h2 text-end mt-8 m-5">قیمت امروز رمزارزها</h1>
+<div id="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-12 page-body">
+                    <div class="row">
+                        <div class="sub-title rtl">
+                            <h2>آموزش اندیکاتورها</h2>
+                        </div>
+                        <div class="col-md-12 content-page rtl">
+                            {% for d in data %}
+                            <div class="col-md-12 blog-post">
+                                <div class="post-title">
+                                    <a href="/blog/{{d.name|lower}}">
+                                        <h1>آموزش اندیکاتور {{d.name|upper}}</h1>
+                                    </a>
+                                </div>
+                                <div class="post-info">
+                                    <span>2022 - توسط <a href="/" target="_blank">FLSK CRPT</a></span>
+                                </div>
+                                <p>{{d.shortdesc}}</p>
+                                {# <p>استفاده از اندیکاتورهای مختلف در تحلیل بازارهای مالی از زمان گسترش استفاده از سیستم‌های کامپیوتری رواج یافت.
+                                     در طی این سال‌ها اندیکاتورهای مختلفی توسط افراد و شرکت‌های مختلف به بازار معرفی شدند.
+                                      میانگین متحرک یکی از اولین و قوی‌ترین اندیکاتورهای معرفی شده برای تحلیل تکنیکال است که پایه ایجاد
+                                       بسیاری دیگر از اندیکاتورها به حساب می‌آید. استراتژی‌های معاملاتی مختلفی با استفاده از میانگین‌های متحرک طراحی شده است.
+                                        در این مقاله به این میپردازیم که میانگین متحرک چیست و چه کاربردهایی دارد.</p> #}
+                                <div class="ltr"><a href="/blog/{{d.name|lower}}" class="btn btn-primary"><span>ادامه مطلب</span></a></div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!-- Blog Design By http://www.uipasta.com -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
