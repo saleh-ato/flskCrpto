@@ -56,8 +56,8 @@ class DataUpdateChecker:
             return "Coins Table Updated."
         elif(update_object is not None):
             return update_object.LastUpdate
-checker=DataUpdateChecker()
-for name in EXPECTATION:
-     print(checker.Expectation_(name))
-
-print(checker.Coins_Table_data())
+def check_all():
+    checker=DataUpdateChecker()
+    for name in EXPECTATION:
+        print(checker.Expectation_(name))
+    print(checker.Coins_Table_data())

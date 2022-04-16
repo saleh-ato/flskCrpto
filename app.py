@@ -29,21 +29,14 @@ import views
 
 import time
 import atexit
-
+from SchedulE import check_all
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
 def print_date_time():
     print(time.strftime("%A, %d. %B %Y %I:%M:%S %p"))
 
-'''
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=print_date_time, trigger="interval", minutes=1)
-scheduler.start()
-'''
-#scheduler.cancel()
 
-'''
-if __name__ == '__main__':
-    app.run(port=5000,debug=True)
-'''
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=check_all, trigger="interval", minutes=15)
+scheduler.start()
