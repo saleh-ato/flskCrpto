@@ -1,5 +1,5 @@
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,timezone
 def api_call(coin_name,date_time):
     #url = 'https://rest.coinapi.io/v1/ohlcv/BINANCE_SPOT_BTC_USDT/history?period_id=1HRS&time_start=2022-01-10T00:00:00&time_end=2021-12-24T23:59:00'
     #url = 'https://rest.coinapi.io/v1/ohlcv/BINANCE_SPOT_BTC_USDT/history?period_id=1HRS&time_start=2022-01-10T16:00:00'
@@ -11,8 +11,9 @@ def api_call(coin_name,date_time):
 def api_call_helper(coin_name):
     coin_name=coin_name.upper()
     SubtractDays=2
-    date_time=datetime.today() - timedelta(days=SubtractDays)
-    date_time=str(date_time.replace(hour=0,minute=0,second=0).isoformat()[:-7])
+    date_time=(datetime.now(timezone.utc) - timedelta(days=SubtractDays)).strftime('%Y-%m-%dT%H:%M:%S')
+    # print("----------",date_time)
+    # date_time=str(date_time.replace(hour=0,minute=0,second=0).isoformat()[:-7])
     return api_call(coin_name,date_time)
 
 # print(api_call_helper('btc'))

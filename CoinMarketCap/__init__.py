@@ -26,4 +26,3 @@ class CoinMarketCap():
             return data
         except (ConnectionError, Timeout, TooManyRedirects) as e:
             print(e)
-    pass

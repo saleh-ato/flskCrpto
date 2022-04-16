@@ -1,29 +1,13 @@
 from app import db
 from ApiDrivers import coinapi
 
+class DataUpdates(db.Model):
+    id=db.Column(db.Integer, primary_key=True)
+    name=db.Column(db.String(10))
+    LastUpdate=db.Column(db.String(20))
 class expectation(db.Model):
-    id=db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id=db.Column(db.Integer, primary_key=True)
     ShortName=db.Column(db.String(30))
-    time_Open=db.Column(db.String(30))
-    Open=db.Column(db.Float)
-    Close=db.Column(db.Float)
-    High=db.Column(db.Float)
-    Low=db.Column(db.Float)
-    Volume=db.Column(db.Float)
-    trades_Count=db.Column(db.Integer)
-class BTC_prc(db.Model):
-    '''btc prices table'''
-    id=db.Column(db.Integer, primary_key=True, autoincrement=True)
-    time_Open=db.Column(db.String(30))
-    Open=db.Column(db.Float)
-    Close=db.Column(db.Float)
-    High=db.Column(db.Float)
-    Low=db.Column(db.Float)
-    Volume=db.Column(db.Float)
-    trades_Count=db.Column(db.Integer)
-class ETH_prc(db.Model):
-    '''ETH prices table'''
-    id=db.Column(db.Integer, primary_key=True, autoincrement=True)
     time_Open=db.Column(db.String(30))
     Open=db.Column(db.Float)
     Close=db.Column(db.Float)
@@ -40,12 +24,6 @@ class Coins_Table(db.Model):
     percent=db.Column(db.Integer)
     marketcap=db.Column(db.String(20))
     volume=db.Column(db.Float)
-class Article(db.Model):
-    id=db.Column(db.Integer, primary_key=True, autoincrement=True)
-    imgSlug=db.Column(db.String(100))
-    title=db.Column(db.String(45))
-    articleDate=db.Column(db.DateTime)
-    articleText=db.Column(db.Text)
 class UsualInfo(db.Model):
     id=db.Column(db.Integer, primary_key=True, autoincrement=True)
     ShortName=db.Column(db.String(10))
@@ -65,7 +43,7 @@ def api_add_commit(coin):
         for data in coin_data:
             # BTC_Price =models.BTC_prc(time_Open=dic1[i]["time_period_start"],Open=dic1[i]["price_open"],Close=dic1[i]["price_close"],High=dic1[i]["price_high"],Low=dic1[i]["price_low"],Volume=dic1[i]["volume_traded"],trades_Count=dic1[i]["trades_count"])
             row=expectation(ShortName=coin,time_Open=data["time_period_start"],Open=data["price_open"],Close=data["price_close"],High=data["price_high"],Low=data["price_low"],Volume=data["volume_traded"],trades_Count=data["trades_count"])
-            print(data)
+            # print(data)
             db.session.add(row)
             db.session.commit()
         return "True"
@@ -75,3 +53,13 @@ def api_add_commit(coin):
 def Expectation_Finder(short_name):
     expect_data=expectation.query.filter_by(ShortName=short_name).all()
     return expect_data
+def Last_Update_Log(name):
+    from datetime import datetime
+    old=DataUpdates.query.filter_by(name=name).all()
+    if old is not None:
+        for record in old:
+            db.session.delete(record)
+        db.session.commit()
+        newlog=DataUpdates(name=name,LastUpdate=str(datetime.now().strftime("%Y-%m-%d")))
+        db.session.add(newlog)
+        db.session.commit()
