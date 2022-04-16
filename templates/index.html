@@ -34,10 +34,10 @@
             <td><img src="/uploads/coins/{{object.ShortName}}.png" height="24px" alt=""> <a
                 href="/coin/{{object.ShortName}}">{{object.FullName}}</a></td>
             <td>{{object.ShortName}}</td>
-            <td>{{object.price}} $</td>
-            <td dir="ltr">{{object.percent}}%</td>
-            <td>{{object.volume}} $</td>
-            <td>{{object.marketcap}} $</td>
+            <td>{{object.price|round(2)}} $</td>
+            <td dir="ltr">{{object.percent|round(3)}}%</td>
+            <td>{{ "{:,.2f} $".format(object.volume)}}</td>
+            <td>{{ "{:,.2f} $".format(object.marketcap)}}</td>
           </tr>
           {% endfor %}
         </tbody>

@@ -7,11 +7,8 @@ app.config['CORS_HEADERS'] = 'application/json'
 
 @app.errorhandler(404)
 def Er404(error):
-    #return render_template("error_404.html"), 404
     return render_template("/errors/404.html"), 404
-@app.route("/append-list")
-def append_coins():
-    pass
+
 @app.route("/")
 def Homepage():
     table_data = models.Coins_Table.query.all()

@@ -21,8 +21,8 @@ class Coins_Table(db.Model):
     ShortName=db.Column(db.String(10))
     FullName=db.Column(db.String(20))
     price=db.Column(db.Float)
-    percent=db.Column(db.Integer)
-    marketcap=db.Column(db.String(20))
+    percent=db.Column(db.Float)
+    marketcap=db.Column(db.Float)
     volume=db.Column(db.Float)
 class UsualInfo(db.Model):
     id=db.Column(db.Integer, primary_key=True, autoincrement=True)
