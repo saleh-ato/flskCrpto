@@ -97,9 +97,8 @@ def func01(name):
     today=datetime.today().strftime("%Y-%m-%d")
     try:
         if last_update==None or date_time_obj!=today:
-            old_records=models.expectation.query.filter_by(ShortName=name).all()
-            for record in old_records:
-                db.session.delete(record)
+            old_record=models.expectation.query.filter_by(ShortName=name).first
+            db.session.delete(old_record)
             db.session.commit()
             models.api_add_commit(name)
             return str("ok")

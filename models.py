@@ -55,10 +55,9 @@ def Expectation_Finder(short_name):
     return expect_data
 def Last_Update_Log(name):
     from datetime import datetime
-    old=DataUpdates.query.filter_by(name=name).all()
+    old=DataUpdates.query.filter_by(name=name).first()
     if old is not None:
-        for record in old:
-            db.session.delete(record)
+        db.session.delete(old)
         db.session.commit()
         newlog=DataUpdates(name=name,LastUpdate=str(datetime.now().strftime("%Y-%m-%d")))
         db.session.add(newlog)
