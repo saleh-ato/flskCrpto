@@ -61,3 +61,5 @@ def check_all():
     for name in EXPECTATION:
         print(checker.Expectation_(name))
     print(checker.Coins_Table_data())
+if __name__ == "__main__":
+    check_all()
