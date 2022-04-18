@@ -38,11 +38,16 @@ def expectationPage():
 
 @app.route("/expectation/<coin_name>")
 def expectation_page(coin_name):
-    from sqlalchemy import or_
+    from sqlalchemy import or_,func
     Coin = models.Coins_Table.query.filter(
     or_(models.Coins_Table.ShortName.ilike(coin_name),models.Coins_Table.FullName.ilike(coin_name))
     ).first()
     data=models.Expectation_Finder(Coin.ShortName)
+    # query = data.select(
+    # models.expectation).group_by(models.expectation.ShortName)
+    # data = db.engine.execute(query).fetchall()
+    #data=data[-48:]#????
+
     return render_template('expectation/index.html',data=data,Coin=Coin)
 
 @app.route("/trending")

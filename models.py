@@ -51,7 +51,7 @@ def api_add_commit(coin):
         return "False "+str(e)
 
 def Expectation_Finder(short_name):
-    expect_data=expectation.query.filter_by(ShortName=short_name).all()
+    expect_data=expectation.query.filter_by(ShortName=short_name).group_by(expectation.time_Open).all()
     return expect_data
 def Last_Update_Log(name):
     from datetime import datetime
