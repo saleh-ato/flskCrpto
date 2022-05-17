@@ -32,11 +32,12 @@ import atexit
 from SchedulE import check_all
 from apscheduler.schedulers.background import BackgroundScheduler
 
-
+'''
 def print_date_time():
     print(time.strftime("%A, %d. %B %Y %I:%M:%S %p"))
-
+'''
 
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=check_all, trigger="interval", minutes=15)
+#scheduler.add_job(func=check_all, trigger="interval", minutes=1)
 scheduler.start()

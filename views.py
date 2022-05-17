@@ -11,7 +11,7 @@ def Er404(error):
 
 @app.route("/")
 def Homepage():
-    table_data = models.Coins_Table.query.all()
+    table_data = models.Coins_Table.query.order_by(models.Coins_Table.marketcap.desc()).all()
     return render_template("index.html",data=table_data)
 
 @app.route("/coin/<coin_name>")
