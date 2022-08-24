@@ -62,3 +62,8 @@ def Last_Update_Log(name):
         newlog=DataUpdates(name=name,LastUpdate=str(datetime.now().strftime("%Y-%m-%d")))
         db.session.add(newlog)
         db.session.commit()
+
+# class Coin(db.Model):
+#     # id=db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     Shortname=db.Column(db.String(10), primary_key=True)
+#     LastUpdate=db.Column(db.String(40))

@@ -69,6 +69,9 @@ def CallGecko(coin_name):
     import CoinGecko
     Chart_Data=CoinGecko.Caller(Coin.FullName)
     coin_data=models.UsualInfo.query.filter_by(ShortName=Coin.ShortName).first()
+    #+-+-+
+    if coin_data==None:
+        coin_data=""
     return render_template("inner/base.html",Coin=Coin,Chart_Data=Chart_Data,coin_data=coin_data)
 @app.route("/blog/<indicator>")
 def indicator_article(indicator):
@@ -113,4 +116,9 @@ def func01(name):
     except Exception as e:
         return str(e)
 
-#TODO: complete usual information of the coin table
+#___________________________________
+@app.route("/check_all")
+def do_checkall():
+    from SchedulE import DataUpdateChecker
+    checker=DataUpdateChecker()
+    return checker.Coins_Table_data()

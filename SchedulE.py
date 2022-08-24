@@ -1,6 +1,6 @@
 import models
 from app import db
-EXPECTATION=["BTC","BNB","ETH","XRP","SOL","ADA","LUNA","AVAX"]
+EXPECTATION=["BTC","BNB","ETH","XRP","SOL","ADA","AVAX"]#,"LUNA"]
 class DataUpdateChecker:
     def Expectation_(self,name):
         from datetime import datetime
