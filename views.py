@@ -122,3 +122,47 @@ def do_checkall():
     from SchedulE import DataUpdateChecker
     checker=DataUpdateChecker()
     return checker.Coins_Table_data()
+#_______________TEST________________
+def getRole():
+    role=None
+    try:
+        role=session["role"]
+    except Exception as e:
+        # print(str(e))
+        pass
+    return role
+@app.route("/sess")
+def sessioncreate():
+    session['role']="admin"
+    return "ok"
+@app.route("/sessnone")
+def session_create():
+    session['role']=None
+    return "ok"
+@app.route("/session")
+def Session_return():
+    role=getRole()
+    return str(role)
+    # return session["role"]
+"""
+@app.route("/admin-login")
+def Login_view():
+    return render_template("sign-in.html",form=signUpForm())
+    # return render_template("auth/sign-in.html",form=signUpForm())
+"""
+
+@app.route("/join-names")
+def join_names():
+    # models.Coin
+    # models.Coins_Table
+    result = db.session.query(models.Coins_Table).join(models.Coin,models.Coins_Table.ShortName==models.Coin.Shortname)
+    # coins_list = db.engine.execute(result).fetchall()
+    print(result[0].FullName)
+    from inspect import getmembers, isfunction
+    functions_list = [o for o in getmembers(result) if isfunction(o[1])]
+    print(functions_list)
+    print("\n",result. __dict__)
+    return str(result. __dict__)
+#_____________BluePrint__________
+from blueprints.admin import admin_blueprint
+app.register_blueprint(admin_blueprint)
