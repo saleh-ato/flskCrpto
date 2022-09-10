@@ -1,13 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Expectation{% endblock title %}
 {% block head %}
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-
-  <link id="pagestyle" href="{{url_for('static',filename='css/material-dashboard.css')}}" rel="stylesheet" />
-
   <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
   <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
   <script src="https://cdn.amcharts.com/lib/5/radar.js"></script>
@@ -422,7 +416,7 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="./assets/js/material-dashboard.min.js?v=3.0.0"></script>
+  <script src="{{url_for('static',filename='js/material-dashboard/material-dashboard.min.js')}}"></script>
   <script src="{{url_for('static',filename='expectation/conditions.js')}}"></script>
   <script src="{{url_for('static',filename='expectation/chartcreator.js')}}"></script>
 </div>

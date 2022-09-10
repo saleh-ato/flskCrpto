@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 {% block title %}رمزارزها{% endblock title %}
 {% block head %}
-{#<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-<link href="{{ url_for('static', filename='footable-/css/footable.standalone.min.css') }}" rel="stylesheet" />
-<script src="{{ url_for('static', filename='footable/js/footable.min.js') }}"></script>
-<link rel="stylesheet" href="{{ url_for('static', filename='css/fooicon.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/footable.css')}}">
+<link href="{{ url_for('static', filename='css/footable/footable.standalone.min.css') }}" rel="stylesheet" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/footable/fooicon.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/footable/footable.css')}}">
+<link href="{{ url_for('static', filename='css/nucleo-icons.css') }}" rel="stylesheet" />
+<link href="{{ url_for('static', filename='css/nucleo-svg.css') }}" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<link rel="stylesheet" href="">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 {% endblock %}
 {% block content %}
 <h1 class="h2 text-end mt-8 m-5">قیمت امروز رمزارزها</h1>
 <div class="fluid-container m-5">
   <div class="row foo">
     <div class="table-container">
-      <table id="showcase-example-1" class="table" {#data-paging="true" data-sorting="true" #} data-filtering="true" data-state="true">
+      <table id="coins-table" class="table" {#data-paging="true" data-sorting="true" #} data-filtering="true" data-state="true">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -47,59 +47,39 @@
 </div>
 <div class="container">
   <div class="row">
-    {% for a in article %}
+    {% for a in articles %}
     <div class="col-md-4">
-      <div class="card"><img src="" alt="" class="card-img-top">
+      <div class="card rtl text-center bx-shd-card m-1">
         <div class="card-body">
-          <h5 class="card-title">{{a.title}}</h5>
-          {#imgSlug=db.Column(db.String(100))
-            title=db.Column(db.String(45))
-            articleDate=db.Column(db.DateTime)
-            articleText=db.Column(db.Text)#}
-          <p class="card-text">{{a.articleText[:50]}}
-          </p>
-          <a href="" class="btn btn-primary">button</a>
+          <h5 class="card-title">آشنایی با اندیکاتور<br><br>{{ a.name | upper() }}</h5>
+          <br>
+          <p class="card-text">{{ a.shortdesc[:50] }}...</p>
+          <a href="" class="btn btn-primary">ادامه مطلب &larr;</a>
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
 </div>
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-<!------ Include the above in your HEAD tag ---------->
-
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-
-<script>
-  jQuery(function ($) {
-    $('.table').footable();
-  });
-</script>
-
+{% endblock %}
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/perfect-scrollbar.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/smooth-scrollbar.min.js') }}"></script>
+<script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+<script src="{{ url_for('static', filename='js/footable/footable.js') }}"></script>
 <script>
   var win = navigator.platform.indexOf('Win') > -1;
   if (win && document.querySelector('#sidenav-scrollbar')) {
+    console.log("hello")
     var options = {
       damping: '0.5'
     }
     Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
   }
+  jQuery(function ($) {
+    $('#coins-table').footable();
+  });
 </script>
-<script src="{{ url_for('static', filename='sign-up-form/assets/js/core/popper.min.js') }}"></script>
-<!-- <script src="{{ url_for('static', filename='sign-up-form/assets/js/core/bootstrap.min.js') }}"></script> -->
-<script src="{{ url_for('static', filename='sign-up-form/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-<script src="{{ url_for('static', filename='sign-up-form/assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
-
-
-
-<link href="{{ url_for('static', filename='sign-up-form/assets/css/nucleo-icons.css') }}" rel="stylesheet" />
-<link href="{{ url_for('static', filename='sign-up-form/assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-<script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-<link id="pagestyle" href="{{ url_for('static', filename='sign-up-form/assets/css/material-dashboard.css') }}" rel="stylesheet" />
-
-<!-- footer -->
-
 {% endblock %}

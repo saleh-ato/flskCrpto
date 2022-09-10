@@ -1,5 +1,7 @@
 import models
 from app import db
+from datetime import datetime
+from ApiDrivers import CoinMarketCap 
 EXPECTATION=["BTC","BNB","ETH","XRP","SOL","ADA","AVAX"]#,"LUNA"]
 class DataUpdateChecker:
     def Expectation_(self,name):
@@ -30,8 +32,6 @@ class DataUpdateChecker:
         except Exception as e:
             return str(e)
     def Coins_Table_data(self):
-        from datetime import datetime
-        from CoinMarketCap import CoinMarketCap 
         try:
             update_object=models.DataUpdates.query.filter_by(name="Coins_Table").first()
         except:

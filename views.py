@@ -3,7 +3,9 @@ from forms.forms import signUpForm
 from app import app,db
 import models
 import requests
-app.config['CORS_HEADERS'] = 'application/json'
+from ApiDrivers import CoinGecko
+from sqlalchemy import and_, or_, not_, func
+from datetime import datetime,timedelta
 
 @app.errorhandler(404)
 def Er404(error):
@@ -12,11 +14,20 @@ def Er404(error):
 @app.route("/")
 def Homepage():
     table_data = models.Coins_Table.query.order_by(models.Coins_Table.marketcap.desc()).all()
-    return render_template("index.html",data=table_data)
+    articles = models.indicatorArticle.query.all()
+    return render_template("index.html",data=table_data, articles=articles[:6])
 
 @app.route("/coin/<coin_name>")
 def coin_inner(coin_name):
-    return redirect(url_for('CallGecko',coin_name = coin_name))
+    coin_name=coin_name.upper()
+    Coin = models.Coins_Table.query.filter(
+    or_(models.Coins_Table.ShortName.ilike(coin_name),models.Coins_Table.FullName.ilike(coin_name))
+    ).first()
+    Chart_Data=CoinGecko.Caller(Coin.FullName)
+    coin_data=models.UsualInfo.query.filter_by(ShortName=Coin.ShortName).first()
+    if coin_data==None:
+        coin_data=""
+    return render_template("inner/base.html",Coin=Coin,Chart_Data=Chart_Data,coin_data=coin_data)    
 
 @app.route("/blog")
 def BlogIndex():
@@ -38,7 +49,6 @@ def expectationPage():
 
 @app.route("/expectation/<coin_name>")
 def expectation_page(coin_name):
-    from sqlalchemy import or_,func
     Coin = models.Coins_Table.query.filter(
     or_(models.Coins_Table.ShortName.ilike(coin_name),models.Coins_Table.FullName.ilike(coin_name))
     ).first()
@@ -59,20 +69,6 @@ def market_Map():
     coin_data = models.Coins_Table.query.all()
     return render_template("chart/ch3.html",coin_data=coin_data)
 
-@app.route("/callgecko-test/<coin_name>")
-def CallGecko(coin_name):
-    from sqlalchemy import and_, or_, not_
-    coin_name=coin_name.upper()
-    Coin = models.Coins_Table.query.filter(
-    or_(models.Coins_Table.ShortName.ilike(coin_name),models.Coins_Table.FullName.ilike(coin_name))
-    ).first()
-    import CoinGecko
-    Chart_Data=CoinGecko.Caller(Coin.FullName)
-    coin_data=models.UsualInfo.query.filter_by(ShortName=Coin.ShortName).first()
-    #+-+-+
-    if coin_data==None:
-        coin_data=""
-    return render_template("inner/base.html",Coin=Coin,Chart_Data=Chart_Data,coin_data=coin_data)
 @app.route("/blog/<indicator>")
 def indicator_article(indicator):
     indicator=indicator.lower()
@@ -93,7 +89,6 @@ def api_caller_coin(coin):
     return models.api_add_commit(coin.upper())
 @app.route("/last-update-checker/<name>")
 def func01(name):
-    from datetime import datetime,timedelta
     name=name.upper()
     #models.DataUpdates.query.filter_by(name=name).order_by(models.DataUpdates.id.desc()).first().
     try:
@@ -144,12 +139,6 @@ def Session_return():
     role=getRole()
     return str(role)
     # return session["role"]
-"""
-@app.route("/admin-login")
-def Login_view():
-    return render_template("sign-in.html",form=signUpForm())
-    # return render_template("auth/sign-in.html",form=signUpForm())
-"""
 
 @app.route("/join-names")
 def join_names():

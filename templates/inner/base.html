@@ -36,7 +36,7 @@
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
-  <link id="pagestyle" href="{{url_for('static' , filename='css/material-dashboard.css')}}" rel="stylesheet" />
+  <link id="pagestyle" href="{{url_for('static' , filename='css/material-dashboard/material-dashboard.css')}}" rel="stylesheet" />
 
   {#<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -45,7 +45,7 @@
   <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.1/dist/chart.js"></script> -->
   {#<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0"></script>#}
   <!-- <script src="./chartjs-chart-financial.js" type="text/javascript"></script> -->
-  <link rel="stylesheet" href="{{url_for('static',filename='css/rtl.css')}}">
+  <link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}">
   {#<script src="{{url_for('static',filename='chartjs/chart.js')}}" type="text/javascript"></script>#}
   <script src="/static/chartjs/chart.js" type="text/javascript"></script>
   <script src="/static/chartjs/dist/chart.js" type="text/javascript"></script>
@@ -61,8 +61,7 @@
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
         aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
-        target="_blank">
+      <a class="navbar-brand m-0" href="/">
         <img src="/uploads/logo/logo.png" class="navbar-brand-img h-100" alt="Flask Crypto">
       </a>
     </div>
@@ -272,6 +271,7 @@
             </div>
           </div>
         </div>
+        {% if coin_data %}
         <div class="row rtl">
           <div class="col-6 col-xl-6">
             <div class="card card-plain h-100">
@@ -311,6 +311,7 @@
             </ul>
           </div>
         </div>
+        {% endif %}
         <div class="row rtl">
           <div class="col-12 my-3 ps-3">
             <h6>پیش بینی قیمت</h6>
@@ -399,7 +400,7 @@
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="{{url_for('static', filename='js/material-dashboard.min.js')}}"></script>
+  <script src="{{url_for('static', filename='js/material-dashboard/material-dashboard.min.js')}}"></script>
   <script>
     dataparser({{ Chart_Data }})
     function dataparser(data) {
@@ -441,7 +442,7 @@
       }
     });
   </script>
-  <script src="{{url_for('static',filename='test/file.js')}}" type="text/javascript"></script>
+  <script src="{{url_for('static',filename='js/inner-page.js')}}" type="text/javascript"></script>
   <style>
     .hidden {
       display: none;

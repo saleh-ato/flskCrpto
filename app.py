@@ -20,6 +20,8 @@ def static_dir(path):
     path=path.lower()
     return send_from_directory("uploads", path)
 
+app.config['CORS_HEADERS'] = 'application/json'
+
 db= SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -40,4 +42,5 @@ def print_date_time():
 scheduler = BackgroundScheduler()
 scheduler.add_job(func=check_all, trigger="interval", minutes=15)
 #scheduler.add_job(func=check_all, trigger="interval", minutes=1)
+#scheduler.add_job(func=check_all, trigger="interval", hours=1)
 scheduler.start()
