@@ -27,7 +27,6 @@ migrate = Migrate(app, db)
 
 import models
 import views
-#import flskcrpt.userviews
 
 import time
 import atexit
