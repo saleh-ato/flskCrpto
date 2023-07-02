@@ -8,9 +8,10 @@ class CoinMarketCap():
         'limit':'50',
         'convert':'USD'
         }
+        #here you enter coin_market_cap  API Key
         headers = {
         'Accepts': 'application/json',
-        'X-CMC_PRO_API_KEY': '5bacd390-f755-4ed2-9dd6-4e4fda7ac5b2',
+        'X-CMC_PRO_API_KEY': 'API Key',
         }
         session = Session()
         session.headers.update(headers)
